@@ -8,7 +8,7 @@ const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [success, setSuccess] = useState("");
+  // const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("");
 
@@ -54,7 +54,7 @@ const Signin = () => {
         <h2>Signin</h2>
         <form onSubmit={submit}>
           {loading}
-          {success}
+          {/* {success} */}
           {error}
           <input
             type="email"

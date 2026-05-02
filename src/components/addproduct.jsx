@@ -1,6 +1,5 @@
 import { useState } from "react"; // for state management
 import axios from "axios"; //For API Access
-import { Link } from "react-router-dom"; ////For link to other component
 
 const Addproduct = () => {
       //Initialize product details hooks
@@ -36,7 +35,7 @@ const Addproduct = () => {
       //Set loding message to empty, after a successful POST to API
       setLoading("Restocking...")
       //Update message hook to successfully Added to notify the user.
-      setMessage("Product Added successfully!");
+      setMessage(response.data.message);
     //   setMessage(response.data.success);
 
       // reset the input fields 

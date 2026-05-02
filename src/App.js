@@ -1,11 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
 import Signup from './components/signup';
 import Signin from './components/signin';
 import Addproduct from './components/addproduct';
 import Getproducts from './components/getproducts';
 import Makepayments from './components/makepayments';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/navbar';
 import Footer from './components/footer';

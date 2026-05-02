@@ -47,73 +47,66 @@ const Getproducts = () => {
     getProducts();
   }, []);
 
-  // Apply filters whenever filters or products change
-  useEffect(() => {
-    applyFilters();
-  }, [filters, products]);
+useEffect(() => {
+  let filtered = [...products];
 
-  const applyFilters = () => {
-    let filtered = [...products];
+  // Search filter
+  if (filters.searchQuery) {
+    filtered = filtered.filter(
+      (product) =>
+        product.product_name
+          .toLowerCase()
+          .includes(filters.searchQuery.toLowerCase()) ||
+        product.product_description
+          .toLowerCase()
+          .includes(filters.searchQuery.toLowerCase())
+    );
+  }
 
-    // Search filter
-    if (filters.searchQuery) {
-      filtered = filtered.filter(
-        (product) =>
-          product.product_name
-            .toLowerCase()
-            .includes(filters.searchQuery.toLowerCase()) ||
-          product.product_description
-            .toLowerCase()
-            .includes(filters.searchQuery.toLowerCase())
+  // Category filter
+  if (filters.category) {
+    filtered = filtered.filter(
+      (product) =>
+        product.category?.toLowerCase() === filters.category.toLowerCase()
+    );
+  }
+
+  // Price range filter
+  if (filters.minPrice) {
+    filtered = filtered.filter(
+      (product) =>
+        parseFloat(product.product_cost) >= parseFloat(filters.minPrice)
+    );
+  }
+
+  if (filters.maxPrice) {
+    filtered = filtered.filter(
+      (product) =>
+        parseFloat(product.product_cost) <= parseFloat(filters.maxPrice)
+    );
+  }
+
+  // Sorting
+  switch (filters.sortBy) {
+    case "price-low-high":
+      filtered.sort(
+        (a, b) => parseFloat(a.product_cost) - parseFloat(b.product_cost)
       );
-    }
-
-    // Category filter
-    if (filters.category) {
-      filtered = filtered.filter(
-        (product) =>
-          product.category?.toLowerCase() === filters.category.toLowerCase()
+      break;
+    case "price-high-low":
+      filtered.sort(
+        (a, b) => parseFloat(b.product_cost) - parseFloat(a.product_cost)
       );
-    }
+      break;
+    case "name":
+      filtered.sort((a, b) => a.product_name.localeCompare(b.product_name));
+      break;
+    default:
+      break;
+  }
 
-    // Price range filter
-    if (filters.minPrice) {
-      filtered = filtered.filter(
-        (product) =>
-          parseFloat(product.product_cost) >= parseFloat(filters.minPrice)
-      );
-    }
-
-    if (filters.maxPrice) {
-      filtered = filtered.filter(
-        (product) =>
-          parseFloat(product.product_cost) <= parseFloat(filters.maxPrice)
-      );
-    }
-
-    // Sorting
-    switch (filters.sortBy) {
-      case "price-low-high":
-        filtered.sort(
-          (a, b) => parseFloat(a.product_cost) - parseFloat(b.product_cost)
-        );
-        break;
-      case "price-high-low":
-        filtered.sort(
-          (a, b) => parseFloat(b.product_cost) - parseFloat(a.product_cost)
-        );
-        break;
-      case "name":
-        filtered.sort((a, b) =>
-          a.product_name.localeCompare(b.product_name)
-        );
-        break;
-      default:
-        break;
-    }
-
-    setFilteredProducts(filtered);
-  };
+  setFilteredProducts(filtered);
+}, [filters, products]); // ✅ no missing dependencies
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;

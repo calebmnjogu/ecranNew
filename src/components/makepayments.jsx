@@ -22,7 +22,7 @@ const Makepayments = () => {
       "https://calebnjogu.pythonanywhere.com/api/mpesa_payment",
       data
     )
-    setMessage("Please complete the payment on your phone.");
+    setMessage(response.data.message);
   }
   return (
     <div>
